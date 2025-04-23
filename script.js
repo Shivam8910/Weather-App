@@ -1,16 +1,16 @@
 const weatherApiKey = "xnapHwl1YjexKFVA9C39hPbfMj0TrtDt";
 const reverseGeoCodingApiKey = "f27b73ea42b74540b5b0d3c9ac65e3b9";
 const citySearchUrl =
-  "http://dataservice.accuweather.com/locations/v1/cities/search";
+  "https://dataservice.accuweather.com/locations/v1/cities/search";
 
 const currentCondtions =
-  "http://dataservice.accuweather.com/currentconditions/v1/";
+  "https://dataservice.accuweather.com/currentconditions/v1/";
 
 const twelveHourForecast =
-  "http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/";
+  "https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/";
 
 const fiveDayForecast =
-  "http://dataservice.accuweather.com/forecasts/v1/daily/5day/";
+  "https://dataservice.accuweather.com/forecasts/v1/daily/5day/";
 
 const reverseGeoCodingApi = "https://api.geoapify.com/v1/geocode/reverse";
 
