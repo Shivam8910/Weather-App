@@ -1,4 +1,4 @@
-const weatherApiKey = "xnapHwl1YjexKFVA9C39hPbfMj0TrtDt";
+const weatherApiKey = "a6qiuUtRygmoKkfwlWXjxp5sjpy4HVxF";
 const reverseGeoCodingApiKey = "f27b73ea42b74540b5b0d3c9ac65e3b9";
 const citySearchUrl =
   "https://dataservice.accuweather.com/locations/v1/cities/search";
@@ -20,32 +20,21 @@ let twHourData = [];
 let fiveDayData = [];
 let currentData = [];
 
-function decideImage(partOfDay, imgStr) {
+function decideImage(partOfDay, imgStr, hasPrecipitation) {
+  imgStr = imgStr.toLowerCase();
+
   if (partOfDay === "Day") {
-    if (
-      imgStr.toLowerCase().includes("sunny") ||
-      imgStr.toLowerCase().includes("clear")
-    )
-      return "sun";
-    else if (
-      imgStr.toLowerCase().includes("partly") ||
-      imgStr.toLowerCase().includes("cloud")
-    )
+    if (hasPrecipitation) return "rainy-day";
+    else if (imgStr.includes("sunny") || imgStr.includes("clear")) return "sun";
+    else if (imgStr.includes("partly") || imgStr.includes("cloud"))
       return "partly-cloudy";
-    else if (imgStr.toLowerCase().includes("rain")) return "rainy-day";
     else return "partly-cloudy";
   } else {
-    if (
-      imgStr.toLowerCase().includes("sunny") ||
-      imgStr.toLowerCase().includes("clear")
-    )
+    if (hasPrecipitation) return "rain";
+    else if (imgStr.includes("sunny") || imgStr.includes("clear"))
       return "moon-and-stars";
-    else if (
-      imgStr.toLowerCase().includes("partly") ||
-      imgStr.toLowerCase().includes("cloud")
-    )
+    else if (imgStr.includes("partly") || imgStr.includes("cloud"))
       return "cloudy-night";
-    else if (imgStr.toLowerCase().includes("rain")) return "rain";
     else return "cloudy-night";
   }
 }
@@ -82,7 +71,8 @@ function updateDOM(cityName, currentData, twHourData, fiveDayData) {
     "./images/" +
     decideImage(
       decidePartOfDay(currentData[0].LocalObservationDateTime),
-      currentData[0].WeatherText
+      currentData[0].WeatherText,
+      currentData[0].HasPrecipitation
     ) +
     ".png";
 
@@ -98,7 +88,8 @@ function updateDOM(cityName, currentData, twHourData, fiveDayData) {
       "./images/" +
       decideImage(
         decidePartOfDay(twHourData[i].DateTime),
-        twHourData[i].IconPhrase
+        twHourData[i].IconPhrase,
+        twHourData[i].HasPrecipitation
       ) +
       ".png";
   }
@@ -119,7 +110,11 @@ function updateDOM(cityName, currentData, twHourData, fiveDayData) {
   for (let i = 0; i < iconArray.length; i++) {
     iconArray[i].src =
       "./images/" +
-      decideImage("Day", fiveDayData.DailyForecasts[i].Day.IconPhrase) +
+      decideImage(
+        "Day",
+        fiveDayData.DailyForecasts[i].Day.IconPhrase,
+        fiveDayData.DailyForecasts[i].Day.HasPrecipitation
+      ) +
       ".png";
   }
 
